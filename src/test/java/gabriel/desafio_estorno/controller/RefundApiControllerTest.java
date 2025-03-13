@@ -24,19 +24,15 @@ public class RefundApiControllerTest {
 
     @Test
     public void testRequestRefund() {
-        // Cria um objeto RefundRequest para simular o corpo da requisição
         RefundRequest refundRequest = new RefundRequest();
         refundRequest.setTransactionId("12345");
         refundRequest.setAmount(100.0);
         refundRequest.setReason("Canceled order");
 
-        // Chama o método do controller
         String response = refundController.requestRefund(refundRequest);
 
-        // Verifica se a resposta é a esperada
         assertEquals("Refund request received and queued for processing.", response);
 
-        // Verifica se o método convertAndSend foi chamado corretamente
         verify(rabbitTemplate).convertAndSend("refund_requests", refundRequest);
     }
 }
